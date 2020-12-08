@@ -1,0 +1,113 @@
+<head>
+    <title>plexi</title>
+</head>
+
+<body>
+<div class="row">
+    <div class="col-md-12 text-center">
+        <h1>Welcome to Meteor!</h1>
+    </div>
+    <div class="container text-center" style="margin-top: 60px">
+        <h3>Valeurs de PlexiData</h3>
+        <div class="row">
+            <div class="col-md-12 col-md-offset-3">
+                {{>plexidata}}
+                {{>svg}}
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<template name="plexidata">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Largeur Totale</th>
+            <th>Largeur SVG</th>
+            <th>Hauteur Totale</th>
+            <th>Hauteur SVG</th>
+            <th>Passe Document</th>
+            <th>Largeur Totale PD</th>
+            <th>Largeur SVG PD</th>
+            <th>Hauteur Totale Passe Document</th>
+            <th>Hauteur SVG PD</th>
+            <th>Base</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each PlexiData}}
+            <tr>
+                <th>{{this.largeurTotale}}</th>
+                <th>{{this.largeur}}</th>
+                <th>{{this.hauteurTotale}}</th>
+                <th>{{this.hauteur}}</th>
+                <th><input name="checkPD" type="checkbox" class="toggle-checked" checked={{PD.checked}}></th>
+                <th>{{PD.largeurTotale}}</th>
+                <th>{{PD.largeur}}</th>
+                <th>{{PD.hauteurTotale}}</th>
+                <th>{{PD.hauteur}}</th>
+                <th>{{base}}</th>
+                <th>Download</th>
+            </tr>
+            <tr>
+                <th><input class="input" type="number" id="largeurTotale"  name="largeurTotale" min="{{this.largeurTotaleMin}}" max="{{this.largeurTotaleMax}}" value="{{this.largeurTotale}}"/></th>
+                <th>{{this.largeur}}</th>
+                <th><input class="input" type="number" id="hauteurTotale" name="hauteurTotale" min="{{this.hauteurTotaleMin}}" max="{{this.hauteurTotaleMax}}" value="{{this.hauteurTotale}}"/></th>
+                <th>{{this.hauteur}}</th>
+                <th>Passe Document</th>
+                <th><input class="input" type="number" id="PD.largeurTotale" name="PD.largeurTotale" min="200" max="{{PD.max}}" value="{{PD.largeurTotale}}"/></th>
+                <th>{{PD.largeur}}</th>
+                <th><input class="input" type="number" id="PD.hauteurTotale" name="PD.hauteurTotale" min="50" max="500" value="{{PD.hauteurTotale}}"/></th>
+                <th>{{PD.hauteur}}</th>
+                <th>{{base}}</th>
+                <th></th>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</template>
+
+<template name="svg">
+    {{#each PlexiData}}
+        <div id="SVG" style=" height: {{div_height}}; width: {{div_width}}">
+            <svg version="1.1" name="trace" id="trace" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+             viewBox="0 0 2000 1500"
+             enable-background="new 0 0 2000 1500"
+             style="background-color: beige;"
+             xml:space="preserve">
+           <!-- <style>
+                @prince-color spotuv {
+                    alternate-color: cmyk(0, 1, 0, 0)
+                };
+            </style>
+-->
+            <path d="M{{this.debutPlaque.largeur}} {{this.debutPlaque.hauteur}},
+                  v-{{this.hauteur}} a20,20 0 0 1 20,-20,
+                  h{{this.largeur}} a20,20 0 0 1 20,20,
+                  v{{this.hauteur}},
+                  h-{{this.debord}},
+                  v-{{hauteur_pied}},
+                  h-{{epaisseur_plexi}},
+                  v{{hauteur_pied}},
+                  {{#if PD.checked}}
+                    h-{{PD.base}},
+                    v-{{PD.hauteur}} a20,20 0 0 0 -20,-20,
+                    h-{{PD.largeur}}a20,20 0 0 0 -20,20,
+                    v{{PD.hauteur}},
+                    h-{{PD.base}},
+                  {{else}}
+                    h-{{base}},
+                  {{/if}}
+                  v-{{hauteur_pied}},
+                  h-{{epaisseur_plexi}},
+                  v{{hauteur_pied}},
+                  z"
+            fill="prince-color(spotuv, overprint)" stroke="blue" stroke-width="3" ></path>
+        </svg>
+            <button class="btn btn-success">Download</button>
+        </div>
+    {{/each}}
+</template>
+<!--fill="none" stroke="Through Cut"
+                  stroke-miterlimit="10"-->
