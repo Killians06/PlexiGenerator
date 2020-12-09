@@ -64,7 +64,7 @@ Template.svg.events({
         /*PDFDocument.prototype.addSpotColor = function(ColorName, type, valeurs, isSpotColor) {
             return
         };*/
-        doc.addSVG(path, 0, 0, {options:{stroke(colorSpace='CMYK'){}}},);
+        doc.addSVG(path, 0, 0, );
         doc.write('PDFKitExampleClientSide.pdf');
 // it will download the doc
         /*const doc = new PDFDocument({size: [mmToPt(2000), mmToPt(1500)]});
