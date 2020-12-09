@@ -3,27 +3,13 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import 'bootstrap';
 import './main.html';
 import '../collections/PlexiData.js';
-/*
-PDFDocument = require('pdfkitx');
-const SVGtoPDF = require('svg-to-pdfkit');
-*/
-
-
-
-
 
 // this is equivalent to the standard node require:
-//SVGtoPDF = require('svg-to-pdfkit');
-
-
+const SVGtoPDF = require('svg-to-pdfkit');
+const doc = new PDFDocument({size: [mmToPt(2000), mmToPt(1500)]});
 function mmToPt (mm) {
     return mm * 2.83465;
 }
-function PtTomm (Pt) {
-    return (Pt / 2.83465);
-}
-
-
 
 Meteor.subscribe('PlexiData', function () {
     return PlexiData.find();
@@ -40,20 +26,14 @@ Template.plexidata.events({
     'click .toggle-checked': function (event) {
         event.preventDefault();
         const state = !this.PD.checked;
-        //const checked = $(event.currentTarget).data('checked');
         console.log(state);
         Meteor.call('plexi.setChecked', this._id, state);
     },
     'change input': function ( event, template ) {
-
         const name = $(event.target.attributes.name).val();
         let min  = $(event.target.attributes.min).val();
         let max  = $(event.target.attributes.max).val();
         let data   = $(event.target).val();
-        /*console.log(name);
-        console.log(min);
-        console.log(max);*/
-        //if (data >= min) {
         console.log(this.largeurTotaleMin);
         console.log(this.largeurTotaleMax);
         Meteor.call('plexi.edit', this._id, name, data, this.largeurTotale, this.base, this.PD.largeurTotale, this.PD.max, this.largeurTotaleMin, this.largeurTotaleMax);
@@ -74,7 +54,20 @@ Template.svg.helpers({
 Template.svg.events({
     'click .btn-success': function (event) {
         event.preventDefault();
-        const doc = new PDFDocument({size: [mmToPt(2000), mmToPt(1500)]});
+        const SVG = document.getElementById("SVG");
+        const path = SVG.firstElementChild;
+        PDFDocument.prototype.addSVG = function(svg, x, y, options) {
+            return SVGtoPDF(this, svg, x, y, options), this;
+        };
+        SVGtoPDF(doc, path, 0, 0, );
+        console.log(doc);
+        /*PDFDocument.prototype.addSpotColor = function(ColorName, type, valeurs, isSpotColor) {
+            return
+        };*/
+        doc.addSVG(path, 0, 0, {options:{stroke(colorSpace='CMYK'){}}},);
+        doc.write('PDFKitExampleClientSide.pdf');
+// it will download the doc
+        /*const doc = new PDFDocument({size: [mmToPt(2000), mmToPt(1500)]});
         PDFDocument.prototype.addSVG = function(svg, x, y, options) {
             return SVGtoPDF(this, svg, x, y, options), this;
         };
@@ -86,7 +79,7 @@ Template.svg.events({
 
         doc.addSVG(path, 0, 0, );
         //doc.addSpotColor('Through Cut', 50, 25, 25, 0);
-        doc.write('PDFKitExampleClientSide.pdf');
+        doc.write('PDFKitExampleClientSide.pdf');*/
 
         // let SVG = getElementById('SVG');
         /*const doc = new PDFDocument({size: [mmToPt(parseFloat(this.largeurTotale)), mmToPt(parseFloat(this.hauteurTotale))],});
