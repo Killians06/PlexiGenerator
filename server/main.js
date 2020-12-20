@@ -9,12 +9,42 @@ Meteor.publish('PlexiData', function () {
 
 Meteor.startup(() => {
     // code to run on server at startup
+    let count = PlexiData.find().count();
+
+    if (count===0){
+        PlexiData.insert({
+            "commandID":"10985",
+            "largeurTotale":400,
+            "largeur":360,
+            "hauteurTotale":400,
+            "hauteur":380,
+            "debord":30,
+            "hauteurPied":155,
+            "epaisseur":3.5,
+            "largeurTotaleMax":2000,
+            "hauteurTotaleMax":1500,
+            "largeurTotaleMin":400,
+            "hauteurTotaleMin":400,
+            "debutPlaque":{
+                "largeur":800,
+                "hauteur":950
+            },
+            "base":333,
+            "PD":{"largeurTotale":230,
+                "largeur":190,
+                "hauteurTotale":230,
+                "hauteur":210,
+                "checked":true,
+                "base":51.5,
+                "min":100,
+                "max":230
+            }
+        })
+    }
 });
 
 Meteor.methods({
     'plexi.setChecked'(Id, setChecked) {
-        /*const plexi = PlexiData.findOne(Id);
-        plexi.update(Id, { $set: { PD:{checked: setChecked }} });*/
         console.log(Id);
         console.log(setChecked);
         PlexiData.update(Id, { $set: {'PD.checked':setChecked} });
@@ -29,7 +59,6 @@ Meteor.methods({
         }
         if (name === 'hauteurTotale'){
             data = parseFloat(data);
-            // console.log(data, LMin, LMax);
             if(data < 400){
                 data = 400;
             }
@@ -57,16 +86,6 @@ Meteor.methods({
         if (name === 'largeurTotale') {
             data = parseFloat(data);
             console.log(data, LMin, LMax);
-            /*if(data<=LMin) {
-                console.log("ERROR - Trop Petit");
-                data = LMin;
-                console.log(data);
-            }
-            else if(data>=LMax){
-                console.log("ERROR - Trop Grand");
-                data = LMax;
-                console.log(data);
-            }*/
             if(data>LMax) {
                 console.log("ERROR - Trop Grand");
                 data = LMax;
@@ -141,10 +160,5 @@ Meteor.methods({
                 }
             });
         }
-        /*const plexi = PlexiData.findOne(Id);
-        plexi.update(Id, { $set: { PD:{checked: setChecked }} });*/
-        //console.log(name);
-        //console.log(data);
-        //PlexiData.update(Id, { $set: {[name]:data, name} });
     },
 });

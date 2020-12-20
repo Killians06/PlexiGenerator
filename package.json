@@ -5,14 +5,16 @@
     "start": "meteor run",
     "test": "meteor test --once --driver-package meteortesting:mocha",
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
-    "visualize": "meteor --production --extra-packages bundle-visualizer"
+    "visualize": "meteor --production --extra-packages bundle-visualizer",
+    "desktop": "meteor-desktop"
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
     "bootstrap": "^4.5.3",
     "jquery": "^3.5.1",
     "meteor-node-stubs": "^1.0.1",
-    "popper.js": "^1.16.1"
+    "popper.js": "^1.16.1",
+    "svg-to-pdfkit": "^0.1.8"
   },
   "meteor": {
     "mainModule": {
@@ -20,5 +22,9 @@
       "server": "server/main.js"
     },
     "testModule": "tests/main.js"
+  },
+  "devDependencies": {
+    "electron": "6.1.7",
+    "electron-builder": "21.2.0"
   }
 }

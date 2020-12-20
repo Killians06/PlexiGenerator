@@ -45,14 +45,8 @@ Template.plexidata.events({
         PDFDocument.prototype.addSVG = function (svg, x, y, options) {
             return SVGtoPDF(this, svg, x, y, options), this;
         };
-        SVGtoPDF(doc, path, 0, 0, /*{colorCallback(){
-            this.stroke[this.color][0] = prototype.stroke.color[1];
-        }}*/);
+        SVGtoPDF(doc, path, 0, 0);
         console.log(doc);
-        /*PDFDocument.prototype.addSpotColor = function(ColorName, type, valeurs, isSpotColor) {
-            return
-        };*/
-        //doc.addSVG(path, 0, 0,);
         if (this.PD.checked){
             doc.write(this.commandID +' - Plexi 3mm - '+ this.largeurTotale +'x'+ this.hauteurTotale +' - PD '+ this.PD.largeurTotale +'x'+ this.PD.hauteurTotale +'.pdf');
         }
@@ -75,68 +69,5 @@ Template.svg.helpers({
 });
 Template.svg.events({
 
-// it will download the doc
-        /*const doc = new PDFDocument({size: [mmToPt(2000), mmToPt(1500)]});
-        PDFDocument.prototype.addSVG = function(svg, x, y, options) {
-            return SVGtoPDF(this, svg, x, y, options), this;
-        };
-
-        const SVG = document.getElementById("SVG");
-        const path = SVG.firstElementChild;
-        console.log(SVG.firstElementChild);
-        //console.log(this);
-
-        doc.addSVG(path, 0, 0, );
-        //doc.addSpotColor('Through Cut', 50, 25, 25, 0);
-        doc.write('PDFKitExampleClientSide.pdf');*/
-
-        // let SVG = getElementById('SVG');
-        /*const doc = new PDFDocument({size: [mmToPt(parseFloat(this.largeurTotale)), mmToPt(parseFloat(this.hauteurTotale))],});
-        console.log(doc.options.size[0]);
-        doc.fontSize(28);
-        const X = 5;
-        const Y = doc.options.size[1]-mmToPt(5);
-        const debutSVG = {
-            X: X,
-            Y: Y
-        };
-        //doc.path('M' ,20 L 100,160 Q 130,200 150,120 C 190,-40 200,200 300,150 L 400,90');
-        // doc.text(doc.options.size[1], 0, 32);
-        if(this.PD.checked){
-            doc.strokeColor('Through Cut');
-            doc.path('M '+X+' '+Y+', ' +
-                'v-'+mmToPt(this.hauteur)+' a20,20 0 0 1 20,-20,' +
-                'h'+    mmToPt(this.largeur     )+' a20,20 0 0 1 20,20,' +
-                'v'+    mmToPt(this.hauteur     )+', '+
-                'h-'+   mmToPt(this.debord      )+', '+
-                'v-'+   mmToPt(this.hauteurPied )+', '+
-                'h-'+   mmToPt(this.epaisseur   )+', '+
-                'v'+    mmToPt(this.hauteurPied )+', '+
-                'h-'+   mmToPt(this.PD.base     )+', '+
-                'v-'+   mmToPt(this.PD.hauteur  )+'  a20,20 0 0 0 -20,-20, '+
-                'h-'+   mmToPt(this.PD.largeur  )+' a20,20 0 0 0 -20,20, '+
-                'v'+    mmToPt(this.PD.hauteur  )+', '+
-                'h-'+   mmToPt(this.PD.base     )+', '+
-                'v-'+   mmToPt(this.hauteurPied )+', '+
-                'h-'+   mmToPt(this.epaisseur   )+', '+
-                'v'+    mmToPt(this.hauteurPied )+', '+
-                'z').stroke();
-        }else{
-            doc.path('M '+X+' '+Y+', ' +
-                'v-'+   mmToPt(this.hauteur)+' a20,20 0 0 1 20,-20,' +
-                'h'+    mmToPt(this.largeur)+' a20,20 0 0 1 20,20,' +
-                'v'+    mmToPt(this.hauteur)+', '+
-                'h-'+   mmToPt(this.debord)+', '+
-                'v-'+   mmToPt(this.hauteurPied)+', '+
-                'h-'+   mmToPt(this.epaisseur)+', '+
-                'v'+    mmToPt(this.hauteurPied)+', '+
-                'h-'+   mmToPt(this.base)+', '+
-                'v-'+   mmToPt(this.hauteurPied)+', '+
-                'h-'+   mmToPt(this.epaisseur)+', '+
-                'v'+    mmToPt(this.hauteurPied)+', '+
-                'z').stroke().strokeColor('Through Cut', '#009444');
-
-        }
-        doc.write('PDFKitExampleClientSide.pdf');*/
 });
 //db.plexidata.insert({"largeurTotale" : 400, "largeur" : 360, "hauteurTotale" : 600, "hauteur" : 560, "debutPlaque" : { "largeur" : 800, "hauteur" : 600 }, "base" : 293, "PD" : { "largeurTotale" : 250, "largeur" : 210, "hauteurTotale" : 50, "hauteur" : 30, "checked" : false } });
