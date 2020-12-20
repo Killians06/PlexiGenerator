@@ -6,7 +6,6 @@ import '../collections/PlexiData.js';
 
 // this is equivalent to the standard node require:
 const SVGtoPDF = require('svg-to-pdfkit');
-const doc = new PDFDocument({size: [mmToPt(2000), mmToPt(1500)]});
 function mmToPt (mm) {
     return mm * 2.83465;
 }
@@ -36,7 +35,30 @@ Template.plexidata.events({
         let data   = $(event.target).val();
         console.log(this.largeurTotaleMin);
         console.log(this.largeurTotaleMax);
-        Meteor.call('plexi.edit', this._id, name, data, this.largeurTotale, this.base, this.PD.largeurTotale, this.PD.max, this.largeurTotaleMin, this.largeurTotaleMax);
+        Meteor.call('plexi.edit', this._id, name, data, this.largeurTotale, this.hauteurTotale, this.base, this.PD.largeurTotale,this.PD.hauteurTotale, this.PD.max, this.largeurTotaleMin, this.largeurTotaleMax);
+    },
+    'click .btn-success': function (event) {
+        event.preventDefault();
+        const doc = new PDFDocument({size: [mmToPt(2000), mmToPt(1500)]});
+        const SVG = document.getElementById("SVG");
+        const path = SVG.firstElementChild;
+        PDFDocument.prototype.addSVG = function (svg, x, y, options) {
+            return SVGtoPDF(this, svg, x, y, options), this;
+        };
+        SVGtoPDF(doc, path, 0, 0, /*{colorCallback(){
+            this.stroke[this.color][0] = prototype.stroke.color[1];
+        }}*/);
+        console.log(doc);
+        /*PDFDocument.prototype.addSpotColor = function(ColorName, type, valeurs, isSpotColor) {
+            return
+        };*/
+        //doc.addSVG(path, 0, 0,);
+        if (this.PD.checked){
+            doc.write(this.commandID +' - Plexi 3mm - '+ this.largeurTotale +'x'+ this.hauteurTotale +' - PD '+ this.PD.largeurTotale +'x'+ this.PD.hauteurTotale +'.pdf');
+        }
+        else{
+            doc.write(this.commandID +' - Plexi 3mm - '+ this.largeurTotale +'x'+ this.hauteurTotale +'.pdf');
+        }
     },
 });
 
@@ -52,20 +74,7 @@ Template.svg.helpers({
     },
 });
 Template.svg.events({
-    'click .btn-success': function (event) {
-        event.preventDefault();
-        const SVG = document.getElementById("SVG");
-        const path = SVG.firstElementChild;
-        PDFDocument.prototype.addSVG = function(svg, x, y, options) {
-            return SVGtoPDF(this, svg, x, y, options), this;
-        };
-        SVGtoPDF(doc, path, 0, 0, );
-        console.log(doc);
-        /*PDFDocument.prototype.addSpotColor = function(ColorName, type, valeurs, isSpotColor) {
-            return
-        };*/
-        doc.addSVG(path, 0, 0, );
-        doc.write('PDFKitExampleClientSide.pdf');
+
 // it will download the doc
         /*const doc = new PDFDocument({size: [mmToPt(2000), mmToPt(1500)]});
         PDFDocument.prototype.addSVG = function(svg, x, y, options) {
@@ -129,6 +138,5 @@ Template.svg.events({
 
         }
         doc.write('PDFKitExampleClientSide.pdf');*/
-    },
 });
 //db.plexidata.insert({"largeurTotale" : 400, "largeur" : 360, "hauteurTotale" : 600, "hauteur" : 560, "debutPlaque" : { "largeur" : 800, "hauteur" : 600 }, "base" : 293, "PD" : { "largeurTotale" : 250, "largeur" : 210, "hauteurTotale" : 50, "hauteur" : 30, "checked" : false } });

@@ -19,17 +19,40 @@ Meteor.methods({
         console.log(setChecked);
         PlexiData.update(Id, { $set: {'PD.checked':setChecked} });
     },
-    'plexi.edit'(Id, name, data, largeurTotale, base, largeurTotalePD, PDmax, LMin, LMax) {
-        if (name === 'hauteurTotale'){
-            data = parseFloat(data);
-            // console.log(data, LMin, LMax);
+    'plexi.edit'(Id, name, data, largeurTotale, hauteurTotale, base, largeurTotalePD, hauteurTotalePD, PDmax, LMin, LMax) {
+        if (name === 'commandID'){
             PlexiData.update(Id, {
                 $set: {
                     [name]: data,
-                    hauteur: data-20,
-                    'debutPlaque.hauteur': (((1500-(data))/2)+(data-40)+40),
                 }
             });
+        }
+        if (name === 'hauteurTotale'){
+            data = parseFloat(data);
+            // console.log(data, LMin, LMax);
+            if(data < 400){
+                data = 400;
+            }
+            if (data-170<hauteurTotalePD){
+                PlexiData.update(Id, {
+                    $set: {
+                        [name]: data,
+                        hauteur: data-20,
+                        'debutPlaque.hauteur': (((1500-(data))/2)+(data-40)+40),
+                        'PD.hauteurTotale': data-170,
+                        'PD.hauteur': data-170-20
+                    }
+                });
+            }else if(data-170>hauteurTotalePD) {
+                PlexiData.update(Id, {
+                    $set: {
+                        [name]: data,
+                        hauteur: data - 20,
+                        'debutPlaque.hauteur': (((1500 - (data)) / 2) + (data - 40) + 40),
+                    }
+                });
+            }
+
         }
         if (name === 'largeurTotale') {
             data = parseFloat(data);
@@ -92,6 +115,9 @@ Meteor.methods({
                 })
 
             }
+            if( data<100 ){
+                data=100
+            }
             PlexiData.update(Id, {
                 $set: {
                     [name]: data,
@@ -102,10 +128,16 @@ Meteor.methods({
         }
         if (name === 'PD.hauteurTotale'){
             data = parseFloat(data);
+            if (data>hauteurTotale-170){
+                data=hauteurTotale-170;
+            }
+            if( data>500 ){
+                data=500;
+            }
             PlexiData.update(Id, {
                 $set: {
                     [name]: data,
-                    'PD.hauteur': data-40,
+                    'PD.hauteur': data-20,
                 }
             });
         }

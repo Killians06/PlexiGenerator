@@ -23,21 +23,23 @@
     <table class="table table-striped">
         <thead>
         <tr>
+            <th>Numero de Commande</th>
             <th>Largeur Totale</th>
-            <th>Largeur SVG</th>
+            <!--<th>Largeur SVG</th>-->
             <th>Hauteur Totale</th>
-            <th>Hauteur SVG</th>
+            <!--<th>Hauteur SVG</th>-->
             <th>Passe Document</th>
             <th>Largeur Totale PD</th>
-            <th>Largeur SVG PD</th>
+            <!--<th>Largeur SVG PD</th>-->
             <th>Hauteur Totale Passe Document</th>
-            <th>Hauteur SVG PD</th>
-            <th>Base</th>
+            <!--<th>Hauteur SVG PD</th>-->
+            <!--<th>Base</th>-->
+            <th>PDF</th>
         </tr>
         </thead>
         <tbody>
         {{#each PlexiData}}
-            <tr>
+            <!--<tr>
                 <th>{{this.largeurTotale}}</th>
                 <th>{{this.largeur}}</th>
                 <th>{{this.hauteurTotale}}</th>
@@ -49,19 +51,20 @@
                 <th>{{PD.hauteur}}</th>
                 <th>{{base}}</th>
                 <th>Download</th>
-            </tr>
+            </tr>-->
             <tr>
+                <th><input class="input" type="text" id="commandID"  name="commandID" value="{{this.commandID}}"/></th>
                 <th><input class="input" type="number" id="largeurTotale"  name="largeurTotale" min="{{this.largeurTotaleMin}}" max="{{this.largeurTotaleMax}}" value="{{this.largeurTotale}}"/></th>
-                <th>{{this.largeur}}</th>
+                <!--<th>{{this.largeur}}</th>-->
                 <th><input class="input" type="number" id="hauteurTotale" name="hauteurTotale" min="{{this.hauteurTotaleMin}}" max="{{this.hauteurTotaleMax}}" value="{{this.hauteurTotale}}"/></th>
-                <th>{{this.hauteur}}</th>
-                <th>Passe Document</th>
+                <!--<th>{{this.hauteur}}</th>-->
+                <th><input name="checkPD" type="checkbox" class="toggle-checked" checked={{PD.checked}}></th>
                 <th><input class="input" type="number" id="PD.largeurTotale" name="PD.largeurTotale" min="200" max="{{PD.max}}" value="{{PD.largeurTotale}}"/></th>
-                <th>{{PD.largeur}}</th>
+                <!--<th>{{PD.largeur}}</th>-->
                 <th><input class="input" type="number" id="PD.hauteurTotale" name="PD.hauteurTotale" min="50" max="500" value="{{PD.hauteurTotale}}"/></th>
-                <th>{{PD.hauteur}}</th>
-                <th>{{base}}</th>
-                <th></th>
+                <!--<th>{{PD.hauteur}}</th>-->
+                <!--<th>{{base}}</th>-->
+                <th><button class="btn btn-success">PDF</button></th>
             </tr>
         {{/each}}
         </tbody>
@@ -82,32 +85,30 @@
                 };
             </style>
 -->
-            <path d="M{{this.debutPlaque.largeur}} {{this.debutPlaque.hauteur}},
-                  v-{{this.hauteur}} a20,20 0 0 1 20,-20,
-                  h{{this.largeur}} a20,20 0 0 1 20,20,
-                  v{{this.hauteur}},
-                  h-{{this.debord}},
-                  v-{{hauteur_pied}},
-                  h-{{epaisseur_plexi}},
-                  v{{hauteur_pied}},
-                  {{#if PD.checked}}
-                    h-{{PD.base}},
-                    v-{{PD.hauteur}} a20,20 0 0 0 -20,-20,
-                    h-{{PD.largeur}}a20,20 0 0 0 -20,20,
-                    v{{PD.hauteur}},
-                    h-{{PD.base}},
-                  {{else}}
-                    h-{{base}},
-                  {{/if}}
-                  v-{{hauteur_pied}},
-                  h-{{epaisseur_plexi}},
-                  v{{hauteur_pied}},
-                  z"
-            fill="none" stroke="green" stroke-width="2" ></path>
-        </svg>
-            <button class="btn btn-success">Download</button>
+                <path d="M{{this.debutPlaque.largeur}} {{this.debutPlaque.hauteur}},
+                      v-{{this.hauteur}} a20,20 0 0 1 20,-20,
+                      h{{this.largeur}} a20,20 0 0 1 20,20,
+                      v{{this.hauteur}},
+                      h-{{this.debord}},
+                      v-{{hauteur_pied}},
+                      h-{{epaisseur_plexi}},
+                      v{{hauteur_pied}},
+                      {{#if PD.checked}}
+                        h-{{PD.base}},
+                        v-{{PD.hauteur}} a20,20 0 0 0 -20,-20,
+                        h-{{PD.largeur}}a20,20 0 0 0 -20,20,
+                        v{{PD.hauteur}},
+                        h-{{PD.base}},
+                      {{else}}
+                        h-{{base}},
+                      {{/if}}
+                      v-{{hauteur_pied}},
+                      h-{{epaisseur_plexi}},
+                      v{{hauteur_pied}},
+                      z"
+                fill="none" stroke="green" stroke-width="2" >
+                </path>
+            </svg>
         </div>
     {{/each}}
 </template>
-<!--fill="none" stroke="Through Cut"
-                  stroke-miterlimit="10"-->
