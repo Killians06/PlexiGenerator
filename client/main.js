@@ -42,8 +42,10 @@ Template.plexidata.events({
         const doc = new PDFDocument({size: [mmToPt(2000), mmToPt(1500)]});
         const SVG = document.getElementById("SVG");
         const path = SVG.firstElementChild;
-        PDFDocument.prototype.addSVG = function (svg, x, y, options) {
-            return SVGtoPDF(this, svg, x, y, options), this;
+        doc.addSVG = function (svg, x, y, options) {
+            return SVGtoPDF(this, svg, x, y, options({
+                //colorCallback: newColor
+            }));
         };
         SVGtoPDF(doc, path, 0, 0);
         console.log(doc);

@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import '../collections/PlexiData';
 
-
 Meteor.publish('PlexiData', function () {
     return PlexiData.find();
 });
@@ -10,8 +9,9 @@ Meteor.publish('PlexiData', function () {
 Meteor.startup(() => {
     // code to run on server at startup
     let count = PlexiData.find().count();
-
+    console.log(count);
     if (count===0){
+        console.log("Pas de Collection!");
         PlexiData.insert({
             "commandID":"10985",
             "largeurTotale":400,
@@ -45,8 +45,6 @@ Meteor.startup(() => {
 
 Meteor.methods({
     'plexi.setChecked'(Id, setChecked) {
-        console.log(Id);
-        console.log(setChecked);
         PlexiData.update(Id, { $set: {'PD.checked':setChecked} });
     },
     'plexi.edit'(Id, name, data, largeurTotale, hauteurTotale, base, largeurTotalePD, hauteurTotalePD, PDmax, LMin, LMax) {
