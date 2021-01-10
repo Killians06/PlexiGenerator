@@ -1,8 +1,6 @@
 .idea/*
-node_modules/*
 .meteor/local/*
 npm-debug.log
-packages/*/.npm/
 .electrify/*
 .meteor/.gitignore
 electron-packager/*
