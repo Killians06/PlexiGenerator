@@ -7,7 +7,6 @@
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
     "visualize": "meteor --production --extra-packages bundle-visualizer",
     "desktop": "meteor-desktop"
-    "homepage": "https://Killians06.github.io/PlexiGenerator",
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
